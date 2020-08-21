@@ -1,6 +1,6 @@
 var canvas; 
 var ctx; //context 
-var output; 
+var output; //Good
 
 var WIDTH = 1200;
 var HEIGHT = 800; 
@@ -11,6 +11,8 @@ tileHeight = 20;
 tileRows = 25;
 tileColumns = 40; 
 
+dragok = false; 
+
 boundX = 0;
 boundY = 0; 
 
@@ -20,35 +22,36 @@ for(i = 0; i < tileColumns; i++)
     tiles[i] = []; 
     for(j = 0; j < tileRows; j++)
     {
-        tiles[i][j] = {x: i*(tileWidth+3), y: j*(tileHeight+3), state: 'empty'};
+        tiles[i][j] = {x: i*(tileWidth+3), y: j*(tileHeight+3), state: 'e'};
     }
 }
 
-tiles[0][0].state = 'start';
-tiles[tileColumns-1][tileRows-1].state = 'finish'; 
+tiles[0][0].state = 's';
+tiles[tileColumns-1][tileRows-1].state = 'f'; 
 
 function rect(x,y,w,h,state)
 {
-    if(state == 'start')
+
+    if(state == 's')
     {
         ctx.fillStyle = '#f6e800'
     }
-    else if(state == 'finish')
+    else if(state == 'f')
     {
         ctx.fillStyle = '#00a100'
     }
 
-    else if( state == 'empty')
+    else if( state == 'e')
     {
        ctx.fillStyle = '#029efc';
     }
 
-    else if( state == 'wall')
+    else if( state == 'w')
     {
-       ctx.fillStyle = '#432409';
+       ctx.fillStyle = '#AA3015'; 
     }
 
-    else if( state == 'x')
+    else if(state == 'x')
     {
        ctx.fillStyle = '#f57842';
     }
@@ -58,6 +61,7 @@ function rect(x,y,w,h,state)
         ctx.fillStyle = '#fafafa';
     }
 
+   
     ctx.beginPath(); 
     ctx.rect(x,y,w,h);
     ctx.closePath();
@@ -73,13 +77,12 @@ function clear()
 function draw()
 {
     clear();
-    ctx.fillStyle = '#029efc';
-    
+
     for(i = 0; i < tileColumns; i++)
     {
         for(j = 0; j < tileRows; j++)
         {
-        rect(tiles[i][j].x,tiles[i][j].y,tileWidth, tileHeight, tiles[i][j].state);
+        rect(tiles[i][j].x, tiles[i][j].y, tileWidth, tileHeight, tiles[i][j].state);
         }
     }
     
@@ -103,15 +106,15 @@ function solveMaze()
         
         if(xLoc > 0)
         {
-            if(tiles[xLoc-1][yLoc].state == 'finish')
+            if(tiles[xLoc-1][yLoc].state == 'f')
             {
                 pathFound = true;
             }
         }
 
-        if(xLoc < tileColumns -1 )
+        if(xLoc < tileColumns - 1 )
         {
-            if(tiles[xLoc+1][yLoc].state == 'finish')
+            if(tiles[xLoc+1][yLoc].state == 'f')
             {
                 pathFound = true; 
             }
@@ -120,15 +123,15 @@ function solveMaze()
         
         if(yLoc > 0)
         {
-            if(tiles[xLoc][yLoc-1].state == 'finish')
+            if(tiles[xLoc][yLoc-1].state == 'f')
             {
                 pathFound = true;
             }
         }
 
-        if(yLoc < tileRows -1 )
+        if(yLoc < tileRows - 1 )
         {
-            if(tiles[xLoc][yLoc+1].state == 'finish')
+            if(tiles[xLoc][yLoc+1].state == 'f')
             {
                 pathFound = true; 
             }
@@ -136,42 +139,42 @@ function solveMaze()
 
         if(xLoc > 0)
         {
-            if(tiles[xLoc-1][yLoc].state == 'empty')
+            if(tiles[xLoc-1][yLoc].state == 'e')
             {
                 Xqueue.push(xLoc-1);
                 Yqueue.push(yLoc); 
-                tiles[xLoc-1][yLoc].state = tiles[xLoc][yLoc].state + 'left'; 
+                tiles[xLoc-1][yLoc].state = tiles[xLoc][yLoc].state + 'l'; 
             }
         }
 
         if(xLoc < tileColumns - 1 )
         {
-            if(tiles[xLoc+1][yLoc].state == 'empty')
+            if(tiles[xLoc+1][yLoc].state == 'e')
             {
                 Xqueue.push(xLoc+1);
                 Yqueue.push(yLoc); 
-                tiles[xLoc+1][yLoc].state = tiles[xLoc][yLoc].state + 'right'; 
+                tiles[xLoc+1][yLoc].state = tiles[xLoc][yLoc].state + 'r'; 
             }
         } 
         
         
         if(yLoc > 0)
         {
-            if(tiles[xLoc][yLoc-1].state == 'empty')
+            if(tiles[xLoc][yLoc-1].state == 'e')
             {
                 Xqueue.push(xLoc);
-                Yqueue.push(yLoc)-1; 
-                tiles[xLoc][yLoc-1].state = tiles[xLoc][yLoc].state + 'up'; 
+                Yqueue.push(yLoc-1); 
+                tiles[xLoc][yLoc-1].state = tiles[xLoc][yLoc].state + 'u'; 
             }
         }
 
         if(yLoc < tileRows - 1)
         {
-            if(tiles[xLoc][yLoc+1].state == 'empty')
+            if(tiles[xLoc][yLoc+1].state == 'e')
             {
                 Xqueue.push(xLoc);
                 Yqueue.push(yLoc+1); 
-                tiles[xLoc][yLoc+1].state = tiles[xLoc][yLoc].state + 'down'; 
+                tiles[xLoc][yLoc+1].state = tiles[xLoc][yLoc].state + 'd'; 
             }
         } 
     }
@@ -188,30 +191,32 @@ function solveMaze()
         var pathLength = path.length; 
         var currX = 0; 
         var currY = 0;
-            for(var i = 0; i < pathLength; i++)
-            {
-                if(path.charAt(i+1) == 'up')
+            for(var i = 0; i < pathLength-1; i++)
+            {              
+
+                if(path.charAt(i+1) == 'u')
                 {
                     currY -= 1; 
                 }
 
-                if(path.charAt(i+1) == 'down')
+                if(path.charAt(i+1) == 'd')
                 {
                     currY += 1; 
                 }
 
-                if(path.charAt(i+1) == 'right')
+                if(path.charAt(i+1) == 'r')
                 {
                     currX += 1; 
                 }
                 
-                if(path.charAt(i+1) == 'left')
+                if(path.charAt(i+1) == 'l')
                 {
                     currX -= 1; 
                 }
 
-                tiles[currX][currY].state = 'x'; 
+                tiles[currX][currY].state = 'x';
             }
+
     }
 }
 
@@ -222,14 +227,14 @@ function reset()
     tiles[i] = []; 
     for(j = 0; j < tileRows; j++)
     {
-        tiles[i][j] = {x: i*(tileWidth+3), y: j*(tileHeight+3), state: 'empty'};
+        tiles[i][j] = {x: i*(tileWidth+3), y: j*(tileHeight+3), state: 'e'};
     }
 
     output.innerHTML = ''; 
 }
 
-tiles[0][0].state = 'start';
-tiles[tileColumns-1][tileRows-1].state = 'finish'; 
+tiles[0][0].state = 's';
+tiles[tileColumns-1][tileRows-1].state = 'f'; 
 }
 
 function startUp() 
@@ -241,7 +246,7 @@ function startUp()
 }
 
 
-function myMove(e)
+function myMove(e)  //Good 
 {
     x = e.pageX - canvas.offsetLeft;
     y = e.pageY - canvas.offsetTop;
@@ -252,16 +257,16 @@ function myMove(e)
         {
             if(i*(tileWidth+3) < x && x < i*(tileWidth+3)+tileWidth && j*(tileHeight+3) < y && y < j*(tileHeight+3)+tileHeight)
             {
-                if(tiles[i][j].state == 'empty' && (i != boundX || j != boundY))
+                if(tiles[i][j].state == 'e' && (i != boundX || j != boundY)) //Good
                 {
-                    tiles[i][j].state = 'wall';
+                    tiles[i][j].state = 'w';
                     boundX = i; 
                     boundY = j;  
                 }
 
-                else if(tiles[i][j].state == 'wall' && (i != boundX || j != boundY))
+                else if(tiles[i][j].state == 'w' && (i != boundX || j != boundY)) //Good 
                 {
-                    tiles[i][j].state = 'empty';
+                    tiles[i][j].state = 'e';
                     boundX = i; 
                     boundY = j;  
                 }
@@ -270,7 +275,7 @@ function myMove(e)
     }
 }
 
-function myDown(e)
+function myDown(e) //Good 
 {
     canvas.onmousemove = myMove; 
 
@@ -283,17 +288,17 @@ function myDown(e)
         {
             if(i*(tileWidth+3) < x && x < i*(tileWidth+3)+tileWidth && j*(tileHeight+3) < y && y < j*(tileHeight+3)+tileHeight)
             {
-                if(tiles[i][j].state == 'empty')
+                if(tiles[i][j].state == 'e')
                 {
-                    tiles[i][j].state = 'wall';
+                    tiles[i][j].state = 'w';
 
                     boundX = i; 
                     boundY = j;  
                 }
 
-                else if(tiles[i][j].state == 'wall')
+                else if(tiles[i][j].state == 'w')
                 {
-                    tiles[i][j].state = 'empty';
+                    tiles[i][j].state = 'e';
                     boundX = i; 
                     boundY = j; 
                 }
@@ -302,7 +307,7 @@ function myDown(e)
     }
 }
 
-function myUp()
+function myUp() //Good
 {
     canvas.onmousemove = null;
 }
