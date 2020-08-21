@@ -89,21 +89,40 @@ function draw()
 
 }
 
+function findBiggestIndex(queue)
+{
+    var biggestIndex = 0; 
+
+    for(var i = 0; i < queue.length; i++)
+    {
+        if(queue[i][0] + queue[i][1] > queue[biggestIndex][0] + queue[biggestIndex][1])
+        {
+                biggestIndex = i;
+        }
+    }
+
+    return biggestIndex; 
+}
 function solveMaze()
 {
-    var Xqueue = [0]; 
-    var Yqueue = [0]; 
+    var queue = [[0, 0]]; 
 
     var pathFound = false; 
 
     var xLoc; 
     var yLoc; 
 
-    while(Xqueue.length > 0 && !pathFound)
+    while(queue.length > 0 && !pathFound)
     {
-        xLoc = Xqueue.shift(); 
-        yLoc = Yqueue.shift(); 
+        // xLoc = Xqueue.shift(); 
+        // yLoc = Yqueue.shift(); 
         
+    var index = findBiggestIndex(queue); 
+    xLoc = queue[index][0]; 
+    yLoc = queue[index][1]; 
+
+    queue.splice(index, 1); 
+
         if(xLoc > 0)
         {
             if(tiles[xLoc-1][yLoc].state == 'f')
@@ -141,8 +160,7 @@ function solveMaze()
         {
             if(tiles[xLoc-1][yLoc].state == 'e')
             {
-                Xqueue.push(xLoc-1);
-                Yqueue.push(yLoc); 
+                queue.push([xLoc-1,yLoc]);
                 tiles[xLoc-1][yLoc].state = tiles[xLoc][yLoc].state + 'l'; 
             }
         }
@@ -151,8 +169,7 @@ function solveMaze()
         {
             if(tiles[xLoc+1][yLoc].state == 'e')
             {
-                Xqueue.push(xLoc+1);
-                Yqueue.push(yLoc); 
+                queue.push([xLoc+1,yLoc]);
                 tiles[xLoc+1][yLoc].state = tiles[xLoc][yLoc].state + 'r'; 
             }
         } 
@@ -162,8 +179,7 @@ function solveMaze()
         {
             if(tiles[xLoc][yLoc-1].state == 'e')
             {
-                Xqueue.push(xLoc);
-                Yqueue.push(yLoc-1); 
+                queue.push([xLoc,yLoc-1]); 
                 tiles[xLoc][yLoc-1].state = tiles[xLoc][yLoc].state + 'u'; 
             }
         }
@@ -172,8 +188,7 @@ function solveMaze()
         {
             if(tiles[xLoc][yLoc+1].state == 'e')
             {
-                Xqueue.push(xLoc);
-                Yqueue.push(yLoc+1); 
+                queue.push([xLoc,yLoc+1]); 
                 tiles[xLoc][yLoc+1].state = tiles[xLoc][yLoc].state + 'd'; 
             }
         } 
