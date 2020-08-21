@@ -2,14 +2,34 @@
 <html>
 
 <head>
-    <meta charset="utf-8" /> 
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="style.css">
+  </link>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
-<body>
-  <canvas id="myCanvas" width="1000"  height="600" ></canvas>
-  <button onclick="solveMaze()">Solve</button>
-  <button onclick="reset()">Reset</button>
-  <p id="outcome"></p>
+<body style="background-color:darkslategrey;">
+    <div class="container pt-5 mt-5 bg-dark">
+      <canvas id="myCanvas" width="1000" height="600"></canvas>
+      <div class="d-flex flex-row pb-3">
+        <button onclick="solveMaze()">Solve</button>
+        <button onclick="reset()">Reset</button>
+        <p id="outcome" style="color:deepskyblue;"></p>
+      </div>
+    </div>
+    <div class="border">
+      <p class="rules"> Hi there 😃 Thanks for checking out this awesome project of mine!</p>
+      <p class="rules">Here's how it works: <br> 1) Click and drag on one of the blue squares to create the walls of your maze *Make sure that the green square is not completely barricaded by these walls
+         <br> 2) Press the solve button and watch out for the orange squares that represent the path to the green square
+         <br> 3) Press the reset button to start over ! 
+      </p>
+    </div>
   <script src="test.js"></script>
 </body>
 
