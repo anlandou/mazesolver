@@ -7,29 +7,56 @@
   </link>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- Popper JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
 </head>
 
 <body style="background-color:darkslategrey;">
-    <div class="container pt-5 mt-5 bg-dark">
-      <canvas id="myCanvas" width="1000" height="600"></canvas>
-      <div class="d-flex flex-row pb-3">
-        <button onclick="solveMaze()">Solve</button>
-        <button onclick="reset()">Reset</button>
-        <p id="outcome" style="color:deepskyblue;"></p>
-      </div>
+  <div class="icon-bar float-right mt-0 ">
+    <a href="https://www.linkedin.com/in/avemarianlandou/" target="_blank" class="linkedin"><i class="fa fa-linkedin"></i></a>
+    <a href="#" class="youtube"><i class="fa fa-youtube"></i></a>
+    
+  </div>
+  <div class="container pt-4 mt-1 bg-dark">
+    <canvas id="myCanvas" width="1000" height="600"></canvas>
+    <div class="d-flex flex-row pb-3">
+      <button onclick="solveMaze()">Solve</button>
+      <button onclick="reset()">Reset</button>
+      <p id="outcome" style="color:deepskyblue;"></p>
     </div>
-    <div class="border">
-      <p class="rules"> Hi there 😃 Thanks for checking out this awesome project of mine!</p>
-      <p class="rules">Here's how it works: <br> 1) Click and drag on one of the blue squares to create the walls of your maze *Make sure that the green square is not completely barricaded by these walls
-         <br> 2) Press the solve button and watch out for the orange squares that represent the path to the green square
-         <br> 3) Press the reset button to start over ! 
-      </p>
-    </div>
+  </div>
+
+  <table class="table table-md">
+    <tr>
+      <th scope="row">
+        Hi there<span style="padding:5px;">😃</span> Thanks for checking out this awesome project of mine!
+      </th>
+      <td class="rules">Here's how it works: <br> 1) Click and drag on one of the blue squares to create the walls of
+        your maze <span class="text-danger"> *Make sure that the green square is not completely barricaded by these walls</span>
+        <br> 2) Press the solve button and watch out for the orange squares that represent the path to the green square
+        <br> 3) Press the reset button to start over!
+      </td>
+    </tr>
+
+    <tr>
+      <th scope="row">Algorithm:</th>
+      <td class="rules"> My intention for this project was to learn how to apply the A* panthfinding algorithm with the
+        guide of various online resouces.
+        <br> Though it isn't perfect, I am still happy with all of the hard work put into it.
+        <br> Lastly, I'd like to state the algorithm itself is efficient but there are a couple tweaks left add to make it a bit more smarter. <br> For example, click on the 
+        solve button w/o creating any walls, you'll notice that the orange pathway takes the longest route <br>
+        reaching for the far right before going down to the green square. It should rather choose the shortest path by tracing <br> 
+        the grid diagonally <span class="text-danger">*I'll try my best to fix this*.</span> 
+      </td>
+    </tr>
+
+  </table>
   <script src="test.js"></script>
 </body>
 
